@@ -1,0 +1,70 @@
+//Arrays
+int[] numbers = new int[3];
+numbers[0] = 10;
+numbers[1] = 20;
+numbers[2] = 30;
+
+for (int i = 0; i < numbers.Length; i++)
+    Console.WriteLine(numbers[i]);
+
+
+//List
+List<int> number = new List<int>();
+number.Add(10);
+number.Add(20);
+number.Add(30);
+
+foreach (var n in numbers)
+{
+    Console.WriteLine(n);
+}
+
+//Dictionary
+
+Dictionary<int, string> users = new Dictionary<int, string>();
+
+users.Add(1, "Surya");
+users.Add(2, "Ravi");
+
+Console.WriteLine(users[1]);
+Console.WriteLine(users[2]);
+
+//HashSet
+
+HashSet<int> numbers1 = new HashSet<int>();
+
+numbers1.Add(10);
+numbers1.Add(10);
+numbers1.Add(20);
+
+foreach(var n in numbers1)
+{ 
+    Console.WriteLine(n); 
+}
+
+//Queue
+
+Queue<string> queue = new Queue<string>();
+
+queue.Enqueue("Item1");
+queue.Enqueue("Item2");
+
+Console.WriteLine(queue.Dequeue());
+
+//Stack
+
+Stack<string> stack = new Stack<string>();
+
+stack.Push("Page1");
+stack.Push("Page2");
+
+Console.WriteLine(stack.Pop());
+
+
+//IEnumerable<T> (Read-only)
+IEnumerable<int> numbers2 = new List<int> { 1, 2, 3 };
+
+foreach (var n in numbers2)
+{
+    Console.WriteLine(n);
+}

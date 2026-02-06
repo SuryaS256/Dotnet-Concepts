@@ -1,0 +1,12 @@
+record Employee(int Id, string Name);
+
+class Program
+{
+    static void Main()
+    {
+        Employee e1 = new Employee(1, "Surya");
+        Employee e2 = new Employee(1, "Surya");
+
+        Console.WriteLine(e1 == e2);  
+    }
+}

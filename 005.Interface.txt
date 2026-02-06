@@ -1,0 +1,21 @@
+interface IPayment
+{
+    void Pay();
+}
+
+class CreditCardPayment : IPayment
+{
+    public void Pay()
+    {
+        Console.WriteLine("Paid using Credit Card");
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        IPayment payment = new CreditCardPayment();
+        payment.Pay();
+    }
+}

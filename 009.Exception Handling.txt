@@ -1,0 +1,18 @@
+class Program
+{
+    static void Main()
+    {
+        try
+        {
+            int number = int.Parse("abc");
+        }
+        catch (FormatException ex)
+        {
+            Console.WriteLine("Invalid number format");
+        }
+        finally
+        {
+            Console.WriteLine("Execution completed");
+        }
+    }
+}

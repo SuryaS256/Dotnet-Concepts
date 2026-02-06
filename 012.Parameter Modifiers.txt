@@ -1,0 +1,31 @@
+class Program
+{
+    static void Modify(ref int a)
+    {
+        a = a + 10;
+    }
+
+    static void GetValues(out int x, out int y)
+    {
+        x = 5;
+        y = 10;
+    }
+
+    static void Print(in int value)
+    {
+        Console.WriteLine(value);
+    }
+
+    static void Main()
+    {
+        int num = 10;
+        Modify(ref num);
+        Console.WriteLine(num);
+
+        int a, b;
+        GetValues(out a, out b);
+        Console.WriteLine($"{a}, {b}");
+
+        Print(num);
+    }
+}

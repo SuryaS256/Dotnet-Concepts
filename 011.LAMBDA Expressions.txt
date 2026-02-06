@@ -1,0 +1,142 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace LinqDemo
+{
+    
+    class Employee
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Department { get; set; }
+        public int Salary { get; set; }
+    }
+
+    class Program
+    {
+        static void Main()
+        {
+            // Step 2: Create a collection of data
+            List<Employee> employees = new List<Employee>
+            {
+                new Employee { Id = 1, Name = "Surya", Department = "IT", Salary = 60000 },
+                new Employee { Id = 2, Name = "Ravi", Department = "HR", Salary = 40000 },
+                new Employee { Id = 3, Name = "Anu", Department = "IT", Salary = 80000 },
+                new Employee { Id = 4, Name = "John", Department = "Finance", Salary = 50000 },
+                new Employee { Id = 5, Name = "Meena", Department = "IT", Salary = 45000 }
+            };
+
+            Console.WriteLine("=== WHERE (Filtering) ===");
+
+            // WHERE: Filters employees based on condition
+            var itEmployees = employees.Where(e => e.Department == "IT");
+
+            foreach (var emp in itEmployees)
+            {
+                Console.WriteLine(emp.Name);
+            }
+
+            Console.WriteLine("\n=== SELECT (Projection) ===");
+
+            // SELECT: Projects only specific fields
+            var employeeNames = employees.Select(e => e.Name);
+
+            foreach (var name in employeeNames)
+            {
+                Console.WriteLine(name);
+            }
+
+            Console.WriteLine("\n=== ORDERBY / ORDERBYDESCENDING ===");
+
+            // ORDERBY: Sort salary in ascending order
+            var salaryAscending = employees.OrderBy(e => e.Salary);
+
+            foreach (var emp in salaryAscending)
+            {
+                Console.WriteLine($"{emp.Name} - {emp.Salary}");
+            }
+
+            Console.WriteLine("\n=== THENBY (Multi-level Sorting) ===");
+
+            // First sort by Department, then by Salary descending
+            var multiSort = employees
+                .OrderBy(e => e.Department)
+                .ThenByDescending(e => e.Salary);
+
+            foreach (var emp in multiSort)
+            {
+                Console.WriteLine($"{emp.Department} - {emp.Name} - {emp.Salary}");
+            }
+
+            Console.WriteLine("\n=== FIRST / FIRSTORDEFAULT ===");
+
+            // FIRST: Returns first matching element (throws exception if none)
+            var firstITEmployee = employees.First(e => e.Department == "IT");
+            Console.WriteLine(firstITEmployee.Name);
+
+            // FIRSTORDEFAULT: Safe version (returns null if not found)
+            var adminEmployee = employees.FirstOrDefault(e => e.Department == "Admin");
+            Console.WriteLine(adminEmployee == null ? "No Admin Employee" : adminEmployee.Name);
+
+            Console.WriteLine("\n=== SINGLE / SINGLEORDEFAULT ===");
+
+            // SINGLE: Use only when exactly ONE record must exist
+            var employeeWithId1 = employees.Single(e => e.Id == 1);
+            Console.WriteLine(employeeWithId1.Name);
+
+            // SINGLEORDEFAULT: Safe version
+            var employeeWithId99 = employees.SingleOrDefault(e => e.Id == 99);
+            Console.WriteLine(employeeWithId99 == null ? "No employee with ID 99" : employeeWithId99.Name);
+
+            Console.WriteLine("\n=== ANY / ALL ===");
+
+            // ANY: Checks if at least one record matches
+            bool hasHighSalary = employees.Any(e => e.Salary > 70000);
+            Console.WriteLine($"Any employee salary > 70000? {hasHighSalary}");
+
+            // ALL: Checks if all records satisfy condition
+            bool allAbove30k = employees.All(e => e.Salary > 30000);
+            Console.WriteLine($"All employees salary > 30000? {allAbove30k}");
+
+            Console.WriteLine("\n=== AGGREGATE FUNCTIONS ===");
+
+            // COUNT
+            Console.WriteLine($"Total Employees: {employees.Count()}");
+
+            // SUM
+            Console.WriteLine($"Total Salary: {employees.Sum(e => e.Salary)}");
+
+            // MIN
+            Console.WriteLine($"Minimum Salary: {employees.Min(e => e.Salary)}");
+
+            // MAX
+            Console.WriteLine($"Maximum Salary: {employees.Max(e => e.Salary)}");
+
+            // AVERAGE
+            Console.WriteLine($"Average Salary: {employees.Average(e => e.Salary)}");
+
+            Console.WriteLine("\n=== DEFERRED EXECUTION DEMO ===");
+
+            // Deferred Execution: Query is NOT executed yet
+            var highSalaryQuery = employees.Where(e => e.Salary > 50000);
+
+            // Modifying collection BEFORE execution (IMPORTANT)
+            employees.Add(new Employee
+            {
+                Id = 6,
+                Name = "NewEmployee",
+                Department = "IT",
+                Salary = 90000
+            });
+
+            // Query executes HERE
+            foreach (var emp in highSalaryQuery)
+            {
+                Console.WriteLine($"{emp.Name} - {emp.Salary}");
+            }
+
+            Console.WriteLine("\n=== END OF LINQ DEMO ===");
+        }
+    }
+}

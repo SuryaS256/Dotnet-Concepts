@@ -1,0 +1,24 @@
+class Animal
+{
+    public virtual void Sound()
+    {
+        Console.WriteLine("Animal sound");
+    }
+}
+
+class Dog : Animal
+{
+    public override void Sound()
+    {
+        Console.WriteLine("Bark");
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        Animal a = new Dog();
+        a.Sound();  
+    }
+}

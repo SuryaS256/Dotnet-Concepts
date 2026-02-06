@@ -1,0 +1,19 @@
+//Filter out the even numbers in the list using Linq
+
+// 1.Method syntax
+ 
+List<int> num= new() {1,2,3,4,5};
+var evenNum = num.Where( n => n %2 == 0).ToList();
+foreach(int n  in evenNum)
+{
+    Console.WriteLine(n);
+}
+
+// 2. Query Syntax
+
+var result =
+    from n in num
+    where n > 3
+    select n;
+
+Console.WriteLine(result);

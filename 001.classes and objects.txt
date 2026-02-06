@@ -1,0 +1,22 @@
+class Person
+{
+    public string Name;
+    public int Age;
+
+    public void Introduce()
+    {
+        Console.WriteLine($"Hi, I am {Name}, Age {Age}");
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        Person p = new Person();   // object creation
+        p.Name = "Surya";
+        p.Age = 25;
+
+        p.Introduce();
+    }
+}
