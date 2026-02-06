@@ -1,0 +1,117 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace LinqGroupByJoinDemo
+{
+    // Employee model
+    class Employee
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public int DepartmentId { get; set; }
+        public int Salary { get; set; }
+    }
+
+    // Department model
+    class Department
+    {
+        public int Id { get; set; }
+        public string DepartmentName { get; set; }
+    }
+
+    class Program
+    {
+        static void Main()
+        {
+            // -------------------------------
+            // DATA SETUP
+            // -------------------------------
+            List<Employee> employees = new List<Employee>
+            {
+                new Employee { Id = 1, Name = "Surya", DepartmentId = 1, Salary = 60000 },
+                new Employee { Id = 2, Name = "Ravi", DepartmentId = 2, Salary = 40000 },
+                new Employee { Id = 3, Name = "Anu", DepartmentId = 1, Salary = 80000 },
+                new Employee { Id = 4, Name = "John", DepartmentId = 3, Salary = 50000 },
+                new Employee { Id = 5, Name = "Meena", DepartmentId = 1, Salary = 45000 }
+            };
+
+            List<Department> departments = new List<Department>
+            {
+                new Department { Id = 1, DepartmentName = "IT" },
+                new Department { Id = 2, DepartmentName = "HR" },
+                new Department { Id = 3, DepartmentName = "Finance" }
+            };
+
+            // =================================================
+            // GROUPBY DEMO
+            // =================================================
+            Console.WriteLine("=== GROUP BY DEPARTMENT ===");
+
+            var groupByDepartment = employees.GroupBy(e => e.DepartmentId);
+
+            foreach (var group in groupByDepartment)
+            {
+                Console.WriteLine($"\nDepartment ID: {group.Key}");
+                Console.WriteLine($"Employee Count: {group.Count()}");
+                Console.WriteLine($"Total Salary: {group.Sum(e => e.Salary)}");
+
+                foreach (var emp in group)
+                {
+                    Console.WriteLine($"  {emp.Name} - {emp.Salary}");
+                }
+            }
+
+            // =================================================
+            // JOIN DEMO (INNER JOIN)
+            // =================================================
+            Console.WriteLine("\n=== INNER JOIN EMPLOYEE + DEPARTMENT ===");
+
+            var joinResult = employees.Join(
+                departments,                 
+                emp => emp.DepartmentId,     
+                dept => dept.Id,             
+                (emp, dept) => new           
+                {
+                    emp.Name,
+                    Department = dept.DepartmentName,
+                    emp.Salary
+                }
+            );
+
+            foreach (var item in joinResult)
+            {
+                Console.WriteLine($"{item.Name} - {item.Department} - {item.Salary}");
+            }
+
+            // =================================================
+            // GROUP BY AFTER JOIN (REAL REPORT SCENARIO)
+            // =================================================
+            Console.WriteLine("\n=== GROUP BY AFTER JOIN ===");
+
+            var report =
+                employees
+                .Join(departments,
+                      emp => emp.DepartmentId,
+                      dept => dept.Id,
+                      (emp, dept) => new
+                      {
+                          emp.Name,
+                          emp.Salary,
+                          dept.DepartmentName
+                      })
+                .GroupBy(x => x.DepartmentName);
+
+            foreach (var group in report)
+            {
+                Console.WriteLine($"\nDepartment: {group.Key}");
+                Console.WriteLine($"Avg Salary: {group.Average(x => x.Salary)}");
+
+                foreach (var emp in group)
+                {
+                    Console.WriteLine($"  {emp.Name} - {emp.Salary}");
+                }
+            }
+        }
+    }
+}
