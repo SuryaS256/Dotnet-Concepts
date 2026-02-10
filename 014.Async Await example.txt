@@ -1,0 +1,12 @@
+static async Task TestAsync()
+{
+    Console.WriteLine("Before delay");
+
+    await Task.Delay(2000); // waits 2 seconds (non-blocking)
+
+    Console.WriteLine("After delay");
+}
+
+Console.WriteLine("Start");
+TestAsync();
+Console.WriteLine("End");
